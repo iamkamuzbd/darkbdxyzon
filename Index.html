@@ -2,287 +2,320 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dihan's Library</title>
-  <meta name="description" content="Dihaner Boi Mela – A simple one‑page showcase of books with prices and contact/payment info." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DarKBD Store</title>
   <style>
-    :root{
-      --bg:#0b0c0f;        /* background */
-      --panel:#111319;     /* panels/cards */
-      --muted:#a6adbb;     /* muted text */
-      --text:#e5e7eb;      /* main text */
-      --brand:#eab308;     /* accent */
-      --stroke:#222632;    /* borders */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #000000, #596d8f, #000);
+      color: #eee;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0; height:100%; background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
-    a{color:inherit; text-decoration:none}
-    img{max-width:100%; display:block}
-
-    /* Layout */
-    .wrap{max-width:1100px; padding:20px; margin:0 auto}
-    header{display:grid; place-items:center; padding:40px 0 10px}
-    .title{font-size:clamp(28px,5vw,56px); font-weight:800; letter-spacing:.5px; text-align:center}
-    .title .dot{color:var(--brand)}
-    .subtitle{margin-top:8px; color:var(--muted); text-align:center}
-
-    /* Grid */
-    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; margin-top:26px}
-
-    /* Card */
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border:1px solid var(--stroke); border-radius:16px; overflow:hidden; transition:transform .18s ease, box-shadow .18s ease}
-    .card:hover{transform:translateY(-3px); box-shadow:0 10px 24px rgba(0,0,0,.35)}
-    .cover{aspect-ratio:3/4; background:#0e1016; display:block}
-    .body{padding:12px 14px 14px}
-    .name{font-weight:700; line-height:1.25}
-    .meta{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:6px}
-    .price{font-weight:800; color:#fff; background:linear-gradient(90deg, #f59e0b, #eab308); -webkit-background-clip:text; background-clip:text; color:transparent}
-    .tag{font-size:12px; color:var(--muted); border:1px solid var(--stroke); padding:2px 8px; border-radius:999px}
-    .actions{display:flex; gap:8px; margin-top:12px}
-    .btn{flex:1; padding:10px 12px; border-radius:12px; border:1px solid var(--stroke); background:#141825; color:var(--text); font-weight:600; cursor:pointer}
-    .btn:hover{filter:brightness(1.1)}
-    .btn.primary{background:linear-gradient(180deg,#f59e0b,#d97706); border-color:#111; color:#0b0c0f}
-
-    /* Toolbar */
-    .toolbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:18px}
-    .search{flex:1; min-width:220px}
-    .input{width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--stroke); background:#0f121a; color:var(--text)}
-    select.input{appearance:none; background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23a6adbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>'); background-repeat:no-repeat; background-position:right 12px center; padding-right:40px}
-
-    /* Footer */
-    footer{margin-top:40px; border-top:1px dashed var(--stroke)}
-    .foot{display:grid; gap:18px; grid-template-columns:1fr; padding:18px 0}
-    .socials,.payments{display:flex; flex-wrap:wrap; gap:10px}
-    .chip{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--stroke); padding:10px 12px; border-radius:12px; background:#11141d}
-    .pay{padding:10px 14px; border-radius:12px; font-weight:700; letter-spacing:.2px}
-    .bkash{background:#ED017F; color:#fff}
-    .nagad{background:#F6921E; color:#111}
-    .note{color:var(--muted); font-size:14px}
-    img{
-        max-height: 453px;
-
+    header, section, footer {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
     }
-
-    @media(min-width:820px){
-      .foot{grid-template-columns:1.2fr .8fr}
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
     }
-    .card{
-        max-width: 341px;
+    .button {
+      background: linear-gradient(to right, #facc15, #f97316);
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      color: #000;
+    }
+    .card {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid #475569;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    .grid {
+      display: grid;
+      gap: 20px;
+    }
+    @media (min-width: 700px) {
+      .grid-2 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    }
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgb(0 0 0 / 78%);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal {
+      background: #070b16;
+      border: 1px solid #334155;
+      padding: 20px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 450px;
+    }
+    input {
+      width: 95%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #eee;
+    }
+    .ip {
+      background: white;
+      padding: 9px 9px;
+      border-radius: 3px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      color: #000;
+    }
+    #payBtn {
+      padding: 12px 25px;
+      font-size: 16px;
+      background: #4CAF50;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    #payBtn:active {
+      transform: scale(0.95);
+    }
+    #statusText {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      display: none;
+      color: #333;
+    }
+    /* Loading animation */
+    .loading {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 3px solid #4CAF50;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin-left: 8px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    /* Checkbox styling */
+    .preference {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      color: #fff;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      border: 1px solid #333;
+    }
+    .preference:hover {
+      background: #070b20;
+    }
+    .preference input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      appearance: none;
+      border: 2px solid #000000;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .preference input[type="checkbox"]:checked {
+      background: #00ff08;
+      border-color: #00ff08;
     }
   </style>
 </head>
 <body>
-  <header class="wrap">
-    <h1 class="title">Dihan’s <span class="dot">Library</span></h1>
-    <p class="subtitle">Books, prices, and instant order — all in one page.</p>
 
-    <!-- Simple toolbar (optional) -->
-    <div class="toolbar">
-      <input id="q" class="input search" placeholder="Search title or tag…" />
-      <select id="sort" class="input" aria-label="Sort">
-        <option value="newest">Newest first</option>
-        <option value="price-asc">Price: Low → High</option>
-        <option value="price-desc">Price: High → Low</option>
-        <option value="title">Title A–Z</option>
-      </select>
+<header class="hero">
+  <div style="display:flex; gap:15px; align-items:center;">
+    <div style="width:50px;height:50px; display:flex; justify-content:center; border-radius:10px; color:#000; font-size:20px; font-weight:900;">
+      <img src="https://yt3.ggpht.com/Urm5L2tpFgsblUuujvr-IQkxTEv3QJr582w-HoAGU-O9Scdtdn_tPSW1hqQ_87JNjYX-MwXClzo247k=s500-rw-nd-v1" alt="">
     </div>
-  </header>
-
-  <main class="wrap">
-    <section id="grid" class="grid" aria-live="polite"></section>
-  </main>
-
-  <footer class="wrap">
-    <div class="foot">
-      <div>
-        <h3>Contact & Social</h3>
-        <p class="note">Order by messaging directly. </p>
-        <div class="socials" id="socials"></div>
-      </div>
-      <div>
-        <h3>01785906010</h3>
-        <hr>
-        <h3>Payment Methods</h3>
-        <p class="note">Accepted: bKash and Nagad (manual confirmation via message).</p>
-        <div class="payments">
-          <span class="pay bkash">bKash</span>
-          <span class="pay nagad">Nagad</span>
-        </div>
-      </div>
+    <div>
+      <h2>DARKBD STORE</h2>
     </div>
-    <p class="note">© <span id="yr"></span> Dihan. All rights reserved.</p>
-  </footer>
+  </div>
+  <button class="ip" onclick="copyIP()">play.darkbd.xyz</button>
 
-  <script>
-    // ------- CONFIGURE THESE --------
-    const CONTACT = {
-      whatsapp: {
-        // Put your number with country code (e.g., 8801XXXXXXXXX for BD)
-        number: "8801785906010",
-        label: "WhatsApp"
-      },
-      instagram: {
-        url: "https://www.instagram.com/dn.dihan143",
-        label: "Instagram"
-      },
-      facebook: {
-        url: "https://www.facebook.com/dndihan143",
-        label: "Facebook"
-      }
-    };
+<script>
+function copyIP() {
+    const ip = "play.darkbd.net";
+    navigator.clipboard.writeText(ip).then(() => {
+        document.getElementById("message").textContent = "Copied!";
+        setTimeout(() => {
+            document.getElementById("message").textContent = "";
+        }, 2000);
+    }).catch(err => {
+        console.error("Failed to copy: ", err);
+    });
+}
+</script>
 
-    const BOOKS = [
-      {
-        id: "kolom-theke-qiyamat",
-        title: "Biharis of Bengal",
-        year: 2025,
-        price: 179,
-        tags: ["poetry","bengali","reflection"],
-        cover: "https://yt3.ggpht.com/sbgn7gR0pO2QypmASH_stcEUrJ5DqkZc3pQ0QZ169zIBkQCMOxCmkS0CapPC4SwxEa_USkYe8CGPVhs=s640-c-fcrop64=1,00001755ffffe8aa-rw-nd-v1",
-      },
-      {
-        id: "city-of-echoes",
-        title: "Shudhu Tumi",
-        year: 2025,
-        price: 49,
-        tags: ["short stories","literary"],
-        cover: "https://yt3.ggpht.com/Lx9f3cBJn2-M27R_HI2_hxxTUdG4xJmBhQ36TDcv1Ch60YtPK9xJVDitGXEwdcLP45ewbKJae1zS=s640-c-fcrop64=1,00002a45ffffd5ba-rw-nd-v1",
-      },
-      {
-        id: "frames-between-frames",
-        title: "The Existence",
-        year: 2025,
-        price: 299,
-        tags: ["non-fiction","filmmaking"],
-        cover: "https://yt3.ggpht.com/y-THbJT7K8NXuuYZ4wq9_oSv_86mvnu0HxgmovnLl40H0uMG9IJjUZiLSD1hiO0vmjJSA6mkfHy-=s1024-rw-nd-v1",
-      },
-      // Add more items as needed
-    ];
-    // --------------------------------
+</header>
 
-    const grid = document.getElementById('grid');
-    const searchInput = document.getElementById('q');
-    const sortSelect = document.getElementById('sort');
-    const socials = document.getElementById('socials');
+<section class="grid grid-2" style="margin-top:40px;">
+  <div>
+    <h1 style="font-size:32px; font-weight:900;">WELCOME TO DARKBD <br> STORE</h1>
+    <p style="margin-top:10px;">Only one rank — <span style="color:#fde047; font-weight:bold;">ᴘʀᴇᴍɪᴜᴍ </span></p>
+  </div>
+  <div class="card">
+    <h3>Premium — Everything Included</h3>
+    <ul style="margin-top:10px; line-height:1.8;">
+      <li>Prefix <p style="display: inline-block; color: gold; text-shadow: 2px 1px 5px; padding: 0 ; margin: 0;">Premium</p> tag</li>
+      <li>hub Fly</li>
+      <li>Self Glow</li>
+      <li>effect</li>
+      <li>custom effect</li>
+    </ul>
+    <button class="button" style="margin-top:15px;" onclick="openCheckout()">Buy 100Tk</button>
+  </div>
+</section>
 
-    document.getElementById('yr').textContent = new Date().getFullYear();
+<section style="margin-top:40px;">
+  <h2>FAQ</h2>
+  <div class="card" style="margin-top:10px;">
+    <b>Server is pay to win ?</b>
+    <p>No pay to win system</p>
+  </div>
+  <div class="card" style="margin-top:10px;">
+    <b>Refund Policy ?</b>
+    <p>Depends on your payment time.</p>
+  </div>
+  <div class="card" style="margin-top:10px;">
+    <b>Is Premium lifetime ?</b>
+    <p>1 month .If you want to buy it, we can extend it for a few more months on discord.</p>
+  </div>
+</section>
 
-    // Render socials
-    const socialChips = [];
-    if (CONTACT.whatsapp?.number) socialChips.push(chip(iconWhatsapp(), `https://wa.me/${CONTACT.whatsapp.number}`, CONTACT.whatsapp.label));
-    if (CONTACT.instagram?.url) socialChips.push(chip(iconInstagram(), CONTACT.instagram.url, CONTACT.instagram.label));
-    if (CONTACT.facebook?.url) socialChips.push(chip(iconFacebook(), CONTACT.facebook.url, CONTACT.facebook.label));
-    socials.replaceChildren(...socialChips);
+<footer style="text-align:center; margin-top:60px; padding:20px; color:#94a3b8; border-top:1px solid #334155;">
+  © 2025 DarKBD — Rank Store
+</footer>
 
-    function chip(svg, href, label){
-      const a = document.createElement('a');
-      a.className = 'chip';
-      a.href = href;
-      a.target = '_blank';
-      a.rel = 'noopener';
-      a.append(svg, document.createTextNode(label));
-      return a;
+<!-- Checkout Modal --> 
+<div id="checkout" class="modal-bg">
+  <div class="modal">
+    <h2>1 Month Premium </h2>
+    <form action="https://formspree.io/f/xldbjpvq" method="POST">
+      <label>
+        Your in-game name:
+        <input type="text" name="username" placeholder="username" required/>
+      </label>
+      <br><br>
+      <label>
+        Your transaction ID:
+        <input type="text" name="transaction" minlength="6" maxlength="12" placeholder="transaction" required/>
+      </label>
+      <br><br>
+      <div class="preference">
+        <label for="cheese">bkash</label>
+        <input type="checkbox" name="bkash" id="cheese" class="single"/>
+      </div>
+      <div class="preference">
+        <label for="peas">nagad</label>
+        <input type="checkbox" name="nagad" id="peas" class="single"/>
+      </div>
+      <div style="text-align: center; width: 100%;">
+      <input type="submit">
+      </div>
+      <p id="statusText"></p>
+    </form>
+  </div>
+</div>
+
+<script>
+function openCheckout() {
+  document.getElementById('checkout').style.display = 'flex';
+}
+function closeCheckout() {
+  document.getElementById('checkout').style.display = 'none';
+}
+
+// Only one checkbox can be selected
+const boxes = document.querySelectorAll(".single");
+boxes.forEach(box => {
+  box.addEventListener("change", () => {
+    if (box.checked) {
+      boxes.forEach(other => {
+        if (other !== box) other.checked = false;
+      });
     }
+  });
+});
 
-    // Basic search & sort
-    searchInput.addEventListener('input', render);
-    sortSelect.addEventListener('change', render);
+// Payment button logic with 5-second countdown
+const btn = document.getElementById("payBtn");
+const statusText = document.getElementById("statusText");
+const form = btn.closest("form");
 
-    function filtered(){
-      const q = searchInput.value.trim().toLowerCase();
-      let list = BOOKS.filter(b => b.title.toLowerCase().includes(q) || (b.tags||[]).join(' ').toLowerCase().includes(q));
-      switch (sortSelect.value){
-        case 'price-asc': list.sort((a,b)=> a.price - b.price); break;
-        case 'price-desc': list.sort((a,b)=> b.price - a.price); break;
-        case 'title': list.sort((a,b)=> a.title.localeCompare(b.title)); break;
-        default: list.sort((a,b)=> b.year - a.year); // newest
-      }
-      return list;
+let pressTimer = null;
+let countdownTimer = null;
+
+function paymentSelected() {
+  return Array.from(boxes).some(box => box.checked);
+}
+
+function formIsValid() {
+  return form.username.value.trim() !== "" &&
+         form.transaction.value.trim() !== "" &&
+         paymentSelected();
+}
+
+btn.addEventListener("mousedown", () => {
+  if (!formIsValid()) {
+    statusText.style.display = "block";
+    statusText.style.color = "red";
+    statusText.textContent = "Please complete all fields before sending.";
+    return;
+  }
+
+  let timeLeft = 5; // 5-second countdown
+  statusText.style.display = "block";
+  statusText.style.color = "#fff";
+  statusText.innerHTML = `Processing transaction: ${timeLeft}s <span class="loading"></span>`;
+
+  countdownTimer = setInterval(() => {
+    timeLeft--;
+    if (timeLeft > 0) {
+      statusText.innerHTML = `Processing transaction: ${timeLeft}s <span class="loading"></span>`;
+    } else {
+      clearInterval(countdownTimer);
+      statusText.innerHTML = "Thank You for Payment ❤️";
+      setTimeout(() => {
+        form.submit(); // submit form to Formspree
+      }, 1000);
     }
+  }, 1000);
+});
 
-    function render(){
-      const items = filtered().map(Card);
-      grid.replaceChildren(...items);
-    }
+btn.addEventListener("mouseup", () => { 
+  clearInterval(countdownTimer); 
+  statusText.style.display = "none"; 
+});
 
-    function Card(book){
-      const card = el('article', 'card');
-      const img = el('img', 'cover');
-      img.loading = 'lazy';
-      img.alt = `${book.title} cover`;
-      img.src = book.cover;
+btn.addEventListener("mouseleave", () => { 
+  clearInterval(countdownTimer); 
+  statusText.style.display = "none"; 
+});
+</script>
 
-      const body = el('div','body');
-      const name = el('div','name', book.title);
-      const meta = el('div','meta');
-      const price = el('div','price', `৳${book.price}`);
-      const tag = el('div','tag', book.year.toString());
-
-      meta.append(tag, price);
-
-      const actions = el('div','actions');
-      const buy = el('button','btn primary','Order on WhatsApp');
-      buy.addEventListener('click', ()=> openWhatsApp(book));
-      const shareBtn = el('button','btn','Share');
-      shareBtn.addEventListener('click', ()=> share(book));
-      actions.append(buy, shareBtn);
-
-      body.append(name, meta, actions);
-      card.append(img, body);
-      return card;
-    }
-
-    function el(tag, className, text){
-      const n = document.createElement(tag);
-      if (className) n.className = className;
-      if (text) n.textContent = text;
-      return n;
-    }
-
-    function openWhatsApp(book){
-      const num = CONTACT.whatsapp?.number || '';
-      const msg = encodeURIComponent(`Hello! I want to order: ${book.title} (৳${book.price}).`);
-      const url = num ? `https://wa.me/${num}?text=${msg}` : `https://wa.me/?text=${msg}`;
-      window.open(url, '_blank', 'noopener');
-    }
-
-    async function share(book){
-      const text = `${book.title} – ৳${book.price}\n` + window.location.href;
-      try{
-        if (navigator.share){
-          await navigator.share({title: book.title, text});
-        }else{
-          await navigator.clipboard.writeText(text);
-          alert('Link copied!');
-        }
-      }catch(e){
-        console.warn(e);
-      }
-    }
-
-    // Icons (inline SVG)
-    function iconWhatsapp(){
-      const i = document.createElementNS('http://www.w3.org/2000/svg','svg');
-      i.setAttribute('viewBox','0 0 24 24'); i.setAttribute('width','18'); i.setAttribute('height','18');
-      i.innerHTML = '<path fill="#25D366" d="M12.04 2C6.59 2 2.16 6.43 2.16 11.88c0 2.09.62 4.03 1.69 5.66L2 22l4.63-1.79a9.87 9.87 0 0 0 5.41 1.58c5.45 0 9.88-4.43 9.88-9.88S17.49 2 12.04 2Zm5.8 14.22c-.25.71-1.46 1.35-2.02 1.39-.52.04-1.18.06-3.96-.82-3.33-1.06-5.48-4.75-5.65-4.97-.16-.22-1.35-1.8-1.35-3.44s.85-2.44 1.16-2.77c.25-.28.66-.41 1.05-.41.13 0 .25 0 .36.01.32.01.48.03.69.53.25.6.86 2.07.94 2.22.07.15.11.32.02.51-.09.2-.14.32-.29.5-.15.18-.31.4-.45.54-.15.15-.31.31-.14.6.17.28.77 1.27 1.65 2.06 1.13 1.01 2.08 1.33 2.38 1.48.3.15.48.13.66-.08.18-.21.76-.88.96-1.18.2-.3.41-.25.68-.15.28.1 1.76.83 2.06.98.3.15.5.23.58.36.08.14.08.79-.17 1.5Z"/>';
-      return i;
-    }
-    function iconInstagram(){
-      const i = document.createElementNS('http://www.w3.org/2000/svg','svg');
-      i.setAttribute('viewBox','0 0 24 24'); i.setAttribute('width','18'); i.setAttribute('height','18');
-      i.innerHTML = '<path fill="#E1306C" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1 -5 5H7a5 5 0 0 1 -5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0 -3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0 -3-3H7Zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5Zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5Zm5.75-3a1.25 1.25 0 1 1 -1.25 1.25A1.25 1.25 0 0 1 17.75 6.5Z"/>';
-      return i;
-    }
-    function iconFacebook(){
-      const i = document.createElementNS('http://www.w3.org/2000/svg','svg');
-      i.setAttribute('viewBox','0 0 24 24'); i.setAttribute('width','18'); i.setAttribute('height','18');
-      i.innerHTML = '<path fill="#1877F2" d="M22 12a10 10 0 1 0 -11.6 9.9v-7H7.6V12h2.8V9.8c0-2.7 1.6-4.2 4-4.2 1.2 0 2.4.2 2.4.2v2.7h-1.3c-1.3 0-1.8.8-1.8 1.7V12h3.1l-.5 2.9h-2.6v7A10 10 0 0 0 22 12Z"/>';
-      return i;
-    }
-
-    // Initial render
-    render();
-  </script>
 </body>
-
 </html>
