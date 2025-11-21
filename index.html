@@ -560,6 +560,186 @@ document.querySelector(".close-popup2").onclick = () => {
 };
 
     </script>
+
+                                            <!-- DevTools deterrence: place before </body> -->
+<script>
+(function(){
+  // CONFIG
+  const COPY_OWNER_KEY = "unlock-devtools"; // small convenience: type this to remove overlay during testing
+  const DETECTION_POLL_MS = 400;
+  const DIM_THRESHOLD = 160; // pixels difference that usually indicates devtools open
+
+  // create overlay that blocks interaction
+  function createLockOverlay() {
+    let ov = document.getElementById('devtools-lock-overlay');
+    if (ov) return ov;
+    ov = document.createElement('div');
+    ov.id = 'devtools-lock-overlay';
+    Object.assign(ov.style, {
+      position: 'fixed',
+      inset: '0',
+      background: 'rgba(0,0,0,0.92)',
+      color: '#fff',
+      zIndex: 99999999,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+      padding: '24px',
+      fontFamily: 'system-ui, Arial, sans-serif',
+      fontSize: '18px',
+      lineHeight: '1.35',
+      cursor: 'not-allowed'
+    });
+
+    ov.innerHTML = `
+      <div>
+        <div style="font-size:22px; font-weight:700; margin-bottom:10px;">Page locked</div>
+        <div style="max-width:720px; opacity:0.9; margin-bottom:18px;">
+          For security this page prevents DevTools and right-click. If you are the owner, type:
+          <code style="background:#000;padding:6px 8px;border-radius:6px;margin-left:6px;">${COPY_OWNER_KEY}</code>
+          then press Enter.
+        </div>
+        <div style="opacity:0.85; font-size:13px;">Refresh the page to try again.</div>
+      </div>
+    `;
+
+    // capture keyboard event for owner unlock
+    ov.addEventListener('keydown', (e) => {
+      // nothing — capture focus
+      e.stopPropagation();
+    }, true);
+
+    document.body.appendChild(ov);
+    // put focus into overlay to capture typed owner key sequence
+    ov.tabIndex = -1;
+    ov.focus();
+    return ov;
+  }
+
+  function showOverlay() {
+    const ov = createLockOverlay();
+    ov.style.display = 'flex';
+    // focus to capture typed owner password
+    ov.focus();
+  }
+  function hideOverlay() {
+    const ov = document.getElementById('devtools-lock-overlay');
+    if (ov) ov.style.display = 'none';
+  }
+
+  // detect devtools by checking window size gap (heuristic)
+  let devtoolsOpen = false;
+  function checkDevtools() {
+    const widthDiff = window.outerWidth - window.innerWidth;
+    const heightDiff = window.outerHeight - window.innerHeight;
+    const open = (widthDiff > DIM_THRESHOLD) || (heightDiff > DIM_THRESHOLD);
+    if (open && !devtoolsOpen) {
+      devtoolsOpen = true;
+      onDevtoolsOpen();
+    } else if (!open && devtoolsOpen) {
+      devtoolsOpen = false;
+      onDevtoolsClose();
+    }
+  }
+
+  function onDevtoolsOpen() {
+    // show overlay and optionally lock page
+    showOverlay();
+    // prevent pointer events to page content (overlay already covers but this is extra)
+    document.documentElement.style.pointerEvents = 'none';
+    document.getElementById('devtools-lock-overlay').style.pointerEvents = 'auto';
+    console.warn('DevTools detected — page locked (deterrent).');
+  }
+
+  function onDevtoolsClose() {
+    hideOverlay();
+    document.documentElement.style.pointerEvents = '';
+    console.info('DevTools closed — page unlocked.');
+  }
+
+  // Block right-click
+  function blockContextMenu(e) {
+    e.preventDefault();
+    // optionally show small toast or subtle message
+    return false;
+  }
+
+  // Block typical devtools key combos
+  function blockKeys(e) {
+    // F12
+    if (e.keyCode === 123) { e.preventDefault(); return false; }
+    // Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+Shift+C
+    if (e.ctrlKey && e.shiftKey && (e.key.toLowerCase() === 'i' || e.key.toLowerCase() === 'j' || e.key.toLowerCase() === 'c')) {
+      e.preventDefault(); return false;
+    }
+    // Ctrl+U (view-source)
+    if (e.ctrlKey && (e.key.toLowerCase() === 'u')) {
+      e.preventDefault(); return false;
+    }
+    // Cmd on Mac: Meta+Option+I etc.
+    if (e.metaKey && e.altKey && e.key.toLowerCase() === 'i') {
+      e.preventDefault(); return false;
+    }
+    // allow owner code to type unlock string even when overlay present
+    // we won't block normal typing here (we'll handle owner unlock separately)
+  }
+
+  // Owner unlock sequence: simple input capture when overlay active
+  let ownerBuffer = '';
+  function ownerKeyListener(e) {
+    if (!document.getElementById('devtools-lock-overlay') || document.getElementById('devtools-lock-overlay').style.display === 'none') return;
+    // allow backspace
+    if (e.key === 'Backspace') {
+      ownerBuffer = ownerBuffer.slice(0, -1);
+      return;
+    }
+    if (e.key === 'Enter') {
+      if (ownerBuffer === COPY_OWNER_KEY) {
+        hideOverlay();
+        document.documentElement.style.pointerEvents = '';
+        ownerBuffer = '';
+      } else {
+        ownerBuffer = '';
+      }
+      return;
+    }
+    // ignore modifier-only keys
+    if (e.key.length === 1) {
+      ownerBuffer += e.key;
+      // keep buffer small
+      if (ownerBuffer.length > 50) ownerBuffer = ownerBuffer.slice(-50);
+    }
+  }
+
+  // init
+  window.addEventListener('contextmenu', blockContextMenu, {capture:true});
+  window.addEventListener('keydown', blockKeys, {capture:true});
+  window.addEventListener('keydown', ownerKeyListener, {capture:true});
+
+  // also disable inspect via mouse selection (some browsers)
+  document.addEventListener('selectstart', function(e){ if (devtoolsOpen) e.preventDefault(); }, true);
+
+  // poll for devtools
+  const poll = setInterval(checkDevtools, DETECTION_POLL_MS);
+
+  // defensive: if user opens console and types something like "debugger" or triggers a breakpoint,
+  // the script could hang. We keep detection simple and non-blocking.
+
+  // expose a safe API for testing (optional)
+  window.__devtoolsDeterrent = {
+    showOverlay,
+    hideOverlay,
+    isOpen: () => devtoolsOpen
+  };
+
+  // quick note in console for developers
+  console.log('%cDevTools deterrent activated (heuristic).', 'color:#6cf; font-weight:600;');
+
+})();
+</script>
+
+                                            
     
 </body>
 </html>
